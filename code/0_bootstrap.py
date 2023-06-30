@@ -61,6 +61,7 @@ import requests
 import xml.etree.ElementTree as ET
 import datetime
 import subprocess
+from pathlib import Path
 
 run_time_suffix = datetime.datetime.now()
 run_time_suffix = run_time_suffix.strftime("%d%m%Y%H%M%S")
@@ -98,7 +99,13 @@ except:
     # create and set storage environment variables
     storage_environment = cml.create_environment_variable({"STORAGE": storage})
     os.environ["STORAGE"] = storage
-    
+
+
+project_location = Path(storage, os.environ["PROJECT_LOCATION"])
+data_location = Path(os.environ["PROJECT_LOCATION"] / os.environ["DATA_LOCATION"])
+
+cml.create_environment_variable({"PROJECT_LOCATION": str(os.environ["PROJECT_LOCATION"])})
+cml.create_environment_variable({"DATA_LOCATION": str(data_location)})
   
 # define a function to run commands on HDFS
 def run_cmd(cmd, raise_err=True):
@@ -131,16 +138,16 @@ def run_cmd(cmd, raise_err=True):
 # for project build
 try:
     dataset_check = run_cmd(
-        f'hdfs dfs -test -f {os.environ["STORAGE"]}/{os.environ["DATA_LOCATION"]}/WA_Fn-UseC_-Telco-Customer-Churn-.csv',
+        f'hdfs dfs -test -f {data_location}/WA_Fn-UseC_-Telco-Customer-Churn-.csv',
         raise_err=False,
     )
 
     if dataset_check.returncode != 0:
         run_cmd(
-            f'hdfs dfs -mkdir -p {os.environ["STORAGE"]}/{os.environ["DATA_LOCATION"]}'
+            f'hdfs dfs -mkdir -p {data_location}'
         )
         run_cmd(
-            f'hdfs dfs -copyFromLocal /home/cdsw/raw/WA_Fn-UseC_-Telco-Customer-Churn-.csv {os.environ["STORAGE"]}/{os.environ["DATA_LOCATION"]}/WA_Fn-UseC_-Telco-Customer-Churn-.csv'
+            f'hdfs dfs -copyFromLocal /home/cdsw/raw/WA_Fn-UseC_-Telco-Customer-Churn-.csv {data_location}/WA_Fn-UseC_-Telco-Customer-Churn-.csv'
         )
     cml.create_environment_variable({"STORAGE_MODE": "external"})
 except RuntimeError as error:
