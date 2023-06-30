@@ -109,6 +109,9 @@ else:
 if os.environ["STORAGE_MODE"] == "external":
     telco_data = spark.read.csv(path, header=True, schema=schema, sep=",", nullValue="NA")
 
+    spark.sql(f"create database if not exists {hive_database}")
+    spark.sql("show databases").show()
+
     # This is here to create the Iceberg table if it does not already exist.
     if iceberg_table not in list(
         spark.sql("show tables in " + hive_database).toPandas()["tableName"]

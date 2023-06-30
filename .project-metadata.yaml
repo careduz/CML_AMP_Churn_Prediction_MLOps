@@ -47,18 +47,18 @@ tasks:
     memory: 2
 
   - type: run_session
-    name: Ingest data
-    script: code/1_data_ingest.py
-    short_summary: Ingest data into our Hive table
+    name: Ingest as iceberg data
+    script: code/1b_data_ingest_iceberg.py
+    short_summary: Ingest data into our Iceberg table
     long_summary: >-
       This script will only run if STORAGE_MODE is set to external
     cpu: 1
     memory: 2
 
   - type: run_session
-    name: Ingest as iceberg data
-    script: code/1b_data_ingest_iceberg.py
-    short_summary: Ingest data into our Iceberg table
+    name: Ingest data
+    script: code/1_data_ingest.py
+    short_summary: Ingest data into our Hive table
     long_summary: >-
       This script will only run if STORAGE_MODE is set to external
     cpu: 1
