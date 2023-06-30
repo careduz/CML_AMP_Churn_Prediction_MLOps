@@ -16,7 +16,8 @@ environment_variables:
       Relative path that will be used to store the data used for this prototype, inside of the PROJECT LOCATION.
       This should be a location you have write access to, and which is suitable for non-production data.
   HIVE_DATABASE:
-    default: default
+    # TO-DO: replace default before sharing
+    default: ceht_scratch
     description: >-
       Name of the Hive database that will be used to create the Hive table used for this prototype.
       This should be a Hive database you have write access to, and which is suitable for non-production data.
