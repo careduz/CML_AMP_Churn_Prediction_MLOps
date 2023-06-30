@@ -45,15 +45,39 @@ from cmlbootstrap import CMLBootstrap
 from pyspark.sql import SparkSession
 from pyspark.sql.utils import AnalysisException
 from pyspark.sql.types import *
-import importlib
-
-data_ingestion = importlib.import_module("1_data_ingestion", package=None)
 
 # Set the setup variables needed by CMLBootstrap
 HOST = os.getenv("CDSW_API_URL").split(":")[0] + "://" + os.getenv("CDSW_DOMAIN")
 USERNAME = os.getenv("CDSW_PROJECT_URL").split("/")[6]  # args.username  # "vdibia"
 API_KEY = os.getenv("CDSW_API_KEY")
 PROJECT_NAME = os.getenv("CDSW_PROJECT")
+
+# TODO: import from a single source, placeholder for now
+schema = StructType(
+    [
+        StructField("customerID", StringType(), True),
+        StructField("gender", StringType(), True),
+        StructField("SeniorCitizen", StringType(), True),
+        StructField("Partner", StringType(), True),
+        StructField("Dependents", StringType(), True),
+        StructField("tenure", DoubleType(), True),
+        StructField("PhoneService", StringType(), True),
+        StructField("MultipleLines", StringType(), True),
+        StructField("InternetService", StringType(), True),
+        StructField("OnlineSecurity", StringType(), True),
+        StructField("OnlineBackup", StringType(), True),
+        StructField("DeviceProtection", StringType(), True),
+        StructField("TechSupport", StringType(), True),
+        StructField("StreamingTV", StringType(), True),
+        StructField("StreamingMovies", StringType(), True),
+        StructField("Contract", StringType(), True),
+        StructField("PaperlessBilling", StringType(), True),
+        StructField("PaymentMethod", StringType(), True),
+        StructField("MonthlyCharges", DoubleType(), True),
+        StructField("TotalCharges", DoubleType(), True),
+        StructField("Churn", StringType(), True),
+    ]
+)
 
 # Instantiate API Wrapper
 cml = CMLBootstrap(HOST, USERNAME, API_KEY, PROJECT_NAME)
@@ -83,7 +107,7 @@ else:
     path = "/home/cdsw/raw/WA_Fn-UseC_-Telco-Customer-Churn-.csv"
 
 if os.environ["STORAGE_MODE"] == "external":
-    telco_data = spark.read.csv(path, header=True, schema=data_ingestion.schema, sep=",", nullValue="NA")
+    telco_data = spark.read.csv(path, header=True, schema=schema, sep=",", nullValue="NA")
 
     # This is here to create the Iceberg table if it does not already exist.
     if iceberg_table not in list(
