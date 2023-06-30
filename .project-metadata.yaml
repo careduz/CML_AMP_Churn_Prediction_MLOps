@@ -6,10 +6,14 @@ prototype_version: 2.0
 date: "2022-03-25"
 
 environment_variables:
+  PROJECT_LOCATION:
+    default: churn_amp_project
+    description: >-
+      Root location for all project assets + data
   DATA_LOCATION:
     default: data/churn_prototype
     description: >-
-      Relative path that will be used to store the data used for this prototype.
+      Relative path that will be used to store the data used for this prototype, inside of the PROJECT LOCATION.
       This should be a location you have write access to, and which is suitable for non-production data.
   HIVE_DATABASE:
     default: default
@@ -40,7 +44,7 @@ tasks:
       Install dependencies, set environment variables, and upload data
     cpu: 1
     memory: 2
-    
+
   - type: run_session
     name: Ingest data
     script: code/1_data_ingest.py
@@ -49,14 +53,14 @@ tasks:
       This script will only run if STORAGE_MODE is set to external
     cpu: 1
     memory: 2
-      
+
   - type: run_session
     name: Train Churn Model
     script: code/4_train_models.py
     short_summary: Train models
     cpu: 1
     memory: 2
-    
+
   - type: create_model
     name: Churn Model API Endpoint
     entity_label: telco_churn_model
