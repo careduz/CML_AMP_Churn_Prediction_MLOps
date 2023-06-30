@@ -102,7 +102,7 @@ except:
 
 
 project_location = Path(storage, os.environ["PROJECT_LOCATION"])
-data_location = Path(os.environ["PROJECT_LOCATION"] / os.environ["DATA_LOCATION"])
+data_location = Path(os.environ["PROJECT_LOCATION"], os.environ["DATA_LOCATION"])
 
 cml.create_environment_variable({"PROJECT_LOCATION": str(os.environ["PROJECT_LOCATION"])})
 cml.create_environment_variable({"DATA_LOCATION": str(data_location)})
