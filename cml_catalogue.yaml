@@ -1,0 +1,21 @@
+name: MLOps Demo
+
+entries:
+  - title: MLOps-focused churn demo
+    label: open-data
+    short_description: Load open data catalogues into Atlas for exploration.
+    long_description: >-
+      This project demonstrates how to build a logistic regression classification model to predict the 
+      probability that a group of customers will churn from a fictitious telecommunications company. In 
+      addition, the model is interpreted using a technique called Local Interpretable Model-agnostic 
+      Explanations (LIME). Both the logistic regression and LIME models are deployed using CML's real-time model 
+      deployment capability and interact with a basic Flask-based web application.
+    image_path: "https://bouldercolorado.gov/sites/default/files/styles/hero_image_977x557/public/2021-06/opendatastickers.jpg"
+    tags:
+      - MLOPS
+      - CHURN PREDICTION
+      - LOGISTIC REGRESSION
+      - EXPLAINABILITY
+      - LIME
+    git_url: "https://github.com/careduz/CML_AMP_Churn_Prediction_MLOps"
+    is_prototype: true
