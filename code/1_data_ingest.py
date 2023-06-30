@@ -216,6 +216,8 @@ if os.environ["STORAGE_MODE"] == "external":
         telco_data.coalesce(1).write.csv(
             "file:/home/cdsw/raw/telco-data/", mode="overwrite", header=True
         )
+        
+        spark.sql(f"create database if not exists {hive_database}")
         spark.sql("show databases").show()
         spark.sql("show tables in " + hive_database).show()
 
