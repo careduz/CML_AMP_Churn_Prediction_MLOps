@@ -56,7 +56,7 @@ tasks:
 
   - type: run_session
     name: Ingest as iceberg data
-    script: code/1_data_ingest_iceberg.py
+    script: code/1b_data_ingest_iceberg.py
     short_summary: Ingest data into our Iceberg table
     long_summary: >-
       This script will only run if STORAGE_MODE is set to external
